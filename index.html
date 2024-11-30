@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truth or Dare Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Truth or Dare</h1>
+        <div class="setup">
+            <input type="text" id="playerName" placeholder="Enter Player Name">
+            <button id="addPlayerBtn">Add Player</button>
+        </div>
+        <div id="playerList">
+            <h3>Players</h3>
+            <ul id="players"></ul>
+        </div>
+        <div class="custom-options">
+            <h3>Customize Truths and Dares</h3>
+            <input type="text" id="customTruth" placeholder="Add a Truth">
+            <button id="addTruthBtn">Add Truth</button>
+            <input type="text" id="customDare" placeholder="Add a Dare">
+            <button id="addDareBtn">Add Dare</button>
+        </div>
+        <div id="customList">
+            <h3>Added Truths and Dares</h3>
+            <ul id="truthList"><strong>Truths:</strong></ul>
+            <ul id="dareList"><strong>Dares:</strong></ul>
+        </div>
+        <button id="startGameBtn">Start Game</button>
+        <div class="game-area">
+            <div class="circle" id="circle">
+                <img src="sword.png" alt="Sword" class="sword" id="sword">
+            </div>
+            <h2 id="selectedPlayer">Waiting...</h2>
+            <button id="truthBtn" class="hidden">Truth</button>
+            <button id="dareBtn" class="hidden">Dare</button>
+            <div id="task" class="hidden"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+<link rel="stylesheet" href="Truth or Dare.css">
+</body>
+<script>
+  let players = [];
+let truths = [
+    'What is your most embarrassing moment?',
+    'Who was your first crush?',
+    'Have you ever lied to your best friend?'
+];
+let dares = [
+    'Do 20 pushups!',
+    'Dance for 1 minute without music.',
+    'Sing a song loudly.'
+];
+let currentPlayer = null;
+
+// Add player to the game
+document.getElementById('addPlayerBtn').addEventListener('click', () => {
+    const playerName = document.getElementById('playerName').value.trim();
+    if (playerName) {
+        players.push(playerName);
+        updatePlayerList();
+        document.getElementById('playerName').value = '';
+    }
+});
+
+// Add a custom truth
+document.getElementById('addTruthBtn').addEventListener('click', () => {
+    const customTruth = document.getElementById('customTruth').value.trim();
+    if (customTruth) {
+        truths.push(customTruth);
+        updateCustomList('truth');
+        document.getElementById('customTruth').value = '';
+    }
+});
+
+// Add a custom dare
+document.getElementById('addDareBtn').addEventListener('click', () => {
+    const customDare = document.getElementById('customDare').value.trim();
+    if (customDare) {
+        dares.push(customDare);
+        updateCustomList('dare');
+        document.getElementById('customDare').value = '';
+    }
+});
+
+// Start the game and spin the sword
+document.getElementById('startGameBtn').addEventListener('click', () => {
+    if (players.length < 2) {
+        alert('Add at least 2 players to start the game!');
+        return;
+    }
+    spinSword();
+});
+
+// Show truth or dare task
+document.getElementById('truthBtn').addEventListener('click', () => {
+    displayTask('truth');
+});
+
+document.getElementById('dareBtn').addEventListener('click', () => {
+    displayTask('dare');
+});
+
+function updatePlayerList() {
+    const playerList = document.getElementById('players');
+    playerList.innerHTML = '';
+    players.forEach((player, index) => {
+        const li = document.createElement('li');
+        li.textContent = `${index + 1}. ${player}`;
+        playerList.appendChild(li);
+    });
+}
+
+function updateCustomList(type) {
+    const list = type === 'truth' ? document.getElementById('truthList') : document.getElementById('dareList');
+    list.innerHTML = `<strong>${type === 'truth' ? 'Truths' : 'Dares'}:</strong>`;
+    const items = type === 'truth' ? truths : dares;
+    items.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.textContent = `${index + 1}. ${item}`;
+        list.appendChild(li);
+    });
+}
+
+function spinSword() {
+    const sword = document.getElementById('sword');
+    const spins = Math.floor(Math.random() * 10 + 5);
+    const angle = spins * 360 + Math.floor(Math.random() * 360);
+    const selectedIndex = Math.floor((angle % 360) / (360 / players.length));
+    currentPlayer = players[selectedIndex];
+    sword.style.transform = `rotate(${angle}deg)`;
+    setTimeout(() => {
+        document.getElementById('selectedPlayer').textContent = `${currentPlayer} is selected!`;
+        document.getElementById('truthBtn').classList.remove('hidden');
+        document.getElementById('dareBtn').classList.remove('hidden');
+    }, 3000);
+}
+
+function displayTask(type) {
+    const taskArray = type === 'truth' ? truths : dares;
+    const task = taskArray[Math.floor(Math.random() * taskArray.length)];
+    document.getElementById('task').textContent = task;
+    document.getElementById('task').classList.remove('hidden');
+    document.getElementById('truthBtn').classList.add('hidden');
+    document.getElementById('dareBtn').classList.add('hidden');
+  }
+</script>
+</html>
