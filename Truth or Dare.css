@@ -1,0 +1,128 @@
+/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #ff7eb3, #ff758c, #ff1e56);
+    color: #ffffff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    animation: bgAnimation 10s infinite alternate;
+}
+
+@keyframes bgAnimation {
+    0% { background: linear-gradient(135deg, #ff7eb3, #ff758c, #ff1e56); }
+    50% { background: linear-gradient(135deg, #76c7c0, #f0e68c, #ff4500); }
+    100% { background: linear-gradient(135deg, #1e90ff, #9370db, #ff6347); }
+}
+
+h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px #000000;
+}
+
+/* Input Fields */
+input {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: 2px solid #ffffff;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    margin: 5px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+input::placeholder {
+    color: #ffffff;
+    opacity: 0.8;
+}
+
+input:focus {
+    background: rgba(255, 255, 255, 0.5);
+    color: #000000;
+}
+
+/* Buttons */
+button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    margin: 10px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ff6a00, #ee0979);
+    color: #ffffff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    transform: scale(1.1);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+button:active {
+    transform: scale(1.05);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Player List */
+#playerList ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px auto;
+    max-width: 400px;
+}
+
+#players li {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px #000000;
+}
+
+/* Truth and Dare Customization Section */
+.custom-options {
+    margin: 30px auto;
+    padding: 20px;
+    border: 3px dashed #ffffff;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.custom-options h3 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px #000000;
+}
+
+/* Game Area */
+.game-area {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.circle {
+    width: 300px;
+    height: 300px;
+    border: 10px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    margin: 30px auto;
+    position: relative;
+    background: radial-gradient(circle, #f39c12, #d35400);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
+    animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
