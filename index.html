@@ -1,21 +1,14 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-  <meta name="google-adsense-account" content="ca-pub-6933984756320127">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6933984756320127"
-     crossorigin="anonymous"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Truth or Dare Game</title>
     <link rel="stylesheet" href="styles.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6933984756320127" crossorigin="anonymous"></script>
 </head>
+
 <body>
     <div class="container">
         <h1>Truth or Dare</h1>
@@ -42,7 +35,7 @@
         <button id="startGameBtn">Start Game</button>
         <div class="game-area">
             <div class="circle" id="circle">
-                <img src="sword.png" alt="Sword" class="sword" id="sword">
+                <span id="sword" class="sword">🗡️</span>
             </div>
             <h2 id="selectedPlayer">Waiting...</h2>
             <button id="truthBtn" class="hidden">Truth</button>
@@ -50,123 +43,131 @@
             <div id="task" class="hidden"></div>
         </div>
     </div>
-    <script src="script.js"></script>
-  <style>
-    #task {
-        font-size: 50px;
-        font-weight: bold;
-        margin-top: 30px;
-      font-color: Red;
-    }
-  </style>
+
+    <script>
+        let players = [];
+        let currentPlayer = null;
+        const dares = [
+            "Dance for 2 minutes without music.",
+            "Let someone draw on your face with a pen.",
+            "Sing a song chosen by the group.",
+            "Eat a spoonful of mustard.",
+            "Talk in an accent for the next 3 rounds.",
+            "Do 20 push-ups.",
+            "Let someone tickle you for 30 seconds.",
+            "Do a cartwheel.",
+            "Imitate your favorite celebrity until someone guesses who you are.",
+            "Let someone post something on your social media account."
+        ];
+
+        const truths = [
+            "What is your biggest fear?",
+            "Have you ever lied to a friend?",
+            "What's the most embarrassing thing that has ever happened to you?",
+            "Have you ever cheated in a game?",
+            "What is one thing you regret doing?"
+        ];
+
+        document.getElementById('addPlayerBtn').addEventListener('click', () => {
+            const playerName = document.getElementById('playerName').value.trim();
+            if (playerName) {
+                players.push(playerName);
+                updatePlayerList();
+                document.getElementById('playerName').value = '';
+            }
+        });
+
+        document.getElementById('addTruthBtn').addEventListener('click', () => {
+            const customTruth = document.getElementById('customTruth').value.trim();
+            if (customTruth) {
+                truths.push(customTruth);
+                updateCustomList('truth');
+                document.getElementById('customTruth').value = '';
+            }
+        });
+
+        document.getElementById('addDareBtn').addEventListener('click', () => {
+            const customDare = document.getElementById('customDare').value.trim();
+            if (customDare) {
+                dares.push(customDare);
+                updateCustomList('dare');
+                document.getElementById('customDare').value = '';
+            }
+        });
+
+        document.getElementById('startGameBtn').addEventListener('click', () => {
+            if (players.length < 2) {
+                alert('Add at least 2 players to start the game!');
+                return;
+            }
+            spinSword();
+        });
+
+        document.getElementById('truthBtn').addEventListener('click', () => {
+            displayTask('truth');
+        });
+
+        document.getElementById('dareBtn').addEventListener('click', () => {
+            displayTask('dare');
+        });
+
+        function updatePlayerList() {
+            const playerList = document.getElementById('players');
+            playerList.innerHTML = '';
+            players.forEach((player, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${index + 1}. ${player}`;
+                playerList.appendChild(li);
+            });
+        }
+
+        function updateCustomList(type) {
+            const list = type === 'truth' ? document.getElementById('truthList') : document.getElementById('dareList');
+            list.innerHTML = `<strong>${type === 'truth' ? 'Truths' : 'Dares'}:</strong>`;
+            const items = type === 'truth' ? truths : dares;
+            items.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${index + 1}. ${item}`;
+                list.appendChild(li);
+            });
+        }
+
+        function spinSword() {
+            const sword = document.getElementById('sword');
+            const spins = Math.floor(Math.random() * 10 + 5);
+            const angle = spins * 360 + Math.floor(Math.random() * 360);
+            const selectedIndex = Math.floor((angle % 360) / (360 / players.length));
+            currentPlayer = players[selectedIndex];
+            sword.style.transform = `rotate(${angle}deg)`;
+            setTimeout(() => {
+                document.getElementById('selectedPlayer').textContent = `${currentPlayer} is selected!`;
+                document.getElementById('truthBtn').classList.remove('hidden');
+                document.getElementById('dareBtn').classList.remove('hidden');
+            }, 3000);
+        }
+
+        function displayTask(type) {
+            const taskArray = type === 'truth' ? truths : dares;
+            const task = taskArray[Math.floor(Math.random() * taskArray.length)];
+            document.getElementById('task').textContent = task;
+            document.getElementById('task').classList.remove('hidden');
+            document.getElementById('truthBtn').classList.add('hidden');
+            document.getElementById('dareBtn').classList.add('hidden');
+        }
+    </script>
+
+    <style>
+        #task {
+            font-size: 50px;
+            font-weight: bold;
+            margin-top: 30px;
+            color: red;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </body>
-</html>
-<link rel="stylesheet" href="index.css">
-</body>
-<script>
-  let players = [];
-let truths = [
-    'What is your most embarrassing moment?',
-    'Who was your first crush?',
 
-];
-let dares = [
-    'Do 20 pushups!',
-    'Dance for 1 minute without music.',
-    'Sing a song loudly.'
-];
-let currentPlayer = null;
-
-// Add player to the game
-document.getElementById('addPlayerBtn').addEventListener('click', () => {
-    const playerName = document.getElementById('playerName').value.trim();
-    if (playerName) {
-        players.push(playerName);
-        updatePlayerList();
-        document.getElementById('playerName').value = '';
-    }
-});
-
-// Add a custom truth
-document.getElementById('addTruthBtn').addEventListener('click', () => {
-    const customTruth = document.getElementById('customTruth').value.trim();
-    if (customTruth) {
-        truths.push(customTruth);
-        updateCustomList('truth');
-        document.getElementById('customTruth').value = '';
-    }
-});
-
-// Add a custom dare
-document.getElementById('addDareBtn').addEventListener('click', () => {
-    const customDare = document.getElementById('customDare').value.trim();
-    if (customDare) {
-        dares.push(customDare);
-        updateCustomList('dare');
-        document.getElementById('customDare').value = '';
-    }
-});
-
-// Start the game and spin the sword
-document.getElementById('startGameBtn').addEventListener('click', () => {
-    if (players.length < 2) {
-        alert('Add at least 2 players to start the game!');
-        return;
-    }
-    spinSword();
-});
-
-// Show truth or dare task
-document.getElementById('truthBtn').addEventListener('click', () => {
-    displayTask('truth');
-});
-
-document.getElementById('dareBtn').addEventListener('click', () => {
-    displayTask('dare');
-});
-
-function updatePlayerList() {
-    const playerList = document.getElementById('players');
-    playerList.innerHTML = '';
-    players.forEach((player, index) => {
-        const li = document.createElement('li');
-        li.textContent = `${index + 1}. ${player}`;
-        playerList.appendChild(li);
-    });
-}
-
-function updateCustomList(type) {
-    const list = type === 'truth' ? document.getElementById('truthList') : document.getElementById('dareList');
-    list.innerHTML = `<strong>${type === 'truth' ? 'Truths' : 'Dares'}:</strong>`;
-    const items = type === 'truth' ? truths : dares;
-    items.forEach((item, index) => {
-        const li = document.createElement('li');
-        li.textContent = `${index + 1}. ${item}`;
-        list.appendChild(li);
-    });
-}
-
-function spinSword() {
-    const sword = document.getElementById('sword');
-    const spins = Math.floor(Math.random() * 10 + 5);
-    const angle = spins * 360 + Math.floor(Math.random() * 360);
-    const selectedIndex = Math.floor((angle % 360) / (360 / players.length));
-    currentPlayer = players[selectedIndex];
-    sword.style.transform = `rotate(${angle}deg)`;
-    setTimeout(() => {
-        document.getElementById('selectedPlayer').textContent = `${currentPlayer} is selected!`;
-        document.getElementById('truthBtn').classList.remove('hidden');
-        document.getElementById('dareBtn').classList.remove('hidden');
-    }, 3000);
-}
-
-function displayTask(type) {
-    const taskArray = type === 'truth' ? truths : dares;
-    const task = taskArray[Math.floor(Math.random() * taskArray.length)];
-    document.getElementById('task').textContent = task;
-    document.getElementById('task').classList.remove('hidden');
-    document.getElementById('truthBtn').classList.add('hidden');
-    document.getElementById('dareBtn').classList.add('hidden');
-      }
-</script>
 </html>
